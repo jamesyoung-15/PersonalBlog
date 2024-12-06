@@ -1,0 +1,22 @@
+---
+import Layout from "./Layout.astro";
+// import Footer from "../components/Footer.astro";
+const { frontmatter } = Astro.props;
+import '../styles/blog.css'
+---
+<Layout pageTitle={frontmatter.title}>
+    <h1>{frontmatter.title}</h1>
+    <div class="blog-date">
+        <i class='bx bxs-edit'></i>
+        <span>Last Updated: {frontmatter.date}</span>
+    </div>
+    <div class="blog-image-overview">
+        <img src={frontmatter.image.url} alt={frontmatter.image.alt}>
+    </div>
+    <div class="blog-content">
+        <slot />
+    </div>
+    <div class="blog-share">
+        
+    </div>
+</Layout>

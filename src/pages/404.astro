@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+const pageTitle = "404 Error"
+---
+<Layout pageTitle={pageTitle}>
+    <div class="error">
+	    <h1>404 Error!</h1>
+        <img src="https://media.tenor.com/Es9wm76r9QkAAAAj/angry-typing-cat.gif" alt="">
+        <!-- <i class='bx bxs-error-alt' ></i> -->
+        <p>Server could not find the requested resource.</p>
+        <p>Perhaps the page you are looking for has been moved, deleted, or never existed.</p>
+    </div>
+</Layout>
+
+<style>
+    body{
+        text-align: center;
+    }
+    .error{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 5vh;
+        height: 80vh;
+    }
+    h1 {
+        color: rgb(223, 22, 22);
+        font-size: 8rem;
+    }
+    i {
+        color: rgb(230, 22, 22);
+        font-size: 8rem;
+    }
+    p{
+        font-size: 3rem;
+    }
+</style>

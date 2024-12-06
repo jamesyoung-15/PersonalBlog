@@ -1,11 +1,20 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+
+const pageTitle = "James' Blog"
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout pageTitle={pageTitle}>
+	<h1>Hello, welcome to my blog!</h1>
+	<p>
+		Here I post my tech blogs where I talk about my home-lab, random tech projects, Linux, gaming,
+		and other stuff I find interesting. 
+	</p>
+	<h2>Blog Posts</h2>
+	<p>
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam maiores fugit impedit tempora facere ipsa officia incidunt, laudantium animi nemo, adipisci aliquid odit debitis odio, quibusdam dolor fugiat nesciunt voluptatem!
+	</p>
 </Layout>
