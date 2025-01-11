@@ -14,3 +14,16 @@ variable "cloudflare_api_token" {
   type = string
   description = "Cloudflare API token"
 }
+
+variable "site_domain" {
+  type = string
+  description = "Domain name for the site"
+  default = "jyylab.com"
+}
+
+variable "subdomain_website" {
+  type = string
+  description = "Subdomain for the website"
+  default = "blog"
+  
+}

@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "500 Error"
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 const { error } = Astro.props
 ---
 
-<Layout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle}>
     <div class="error">
 	    <h1>500 Error!</h1>
         <img src="https://media.tenor.com/Es9wm76r9QkAAAAj/angry-typing-cat.gif" alt="">
@@ -21,7 +21,7 @@ const { error } = Astro.props
             </span>
         </div>
     </div>
-</Layout>
+</BaseLayout>
 
 <style>
     body{

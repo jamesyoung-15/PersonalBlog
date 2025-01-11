@@ -1,6 +1,8 @@
 /* Global Styles */
 :root{
     --body-font: 'Source Serif 4', monospace;
+    --button-background: #4258ff;
+    --tag-background: #0288d1;
 }
 
 [data-theme="dark"] {
@@ -19,17 +21,22 @@
     --lavender: #b4befe;
     --base: #1e1e2e;
     --crust: #11111b;
+    --overlay: #313244;
 
 
     --background: #0e1217;
     --text: #ffffff;
     --subtext-0: #a6adc8;
     --nav-logo: var(--teal);
+
     --text-link-hover: var(--mauve);
     --text-link-hover-2: var(--red);
     --text-link-hover-3: var(--blue);
     --menu-link-hover: var(--mauve);
-    --border-color: #fff;
+    
+    --card-background: #24292e;
+    --card-border: #272c34;
+    --card-hover: var(--overlay);
 }
 
 [data-theme="light"] {
@@ -48,16 +55,21 @@
     --lavender: #7287fd;
     --base: #eff1f5;
     --crust: #dce0e8;
+    --overlay: #9ca0b0;
 
     --background: #eff1f5;
     --text: rgb(48, 48, 58);
     --subtext-0: #6c6f85;
     --nav-logo: var(--teal);
+
     --text-link-hover: var(--mauve);
     --text-link-hover-2: var(--red);
     --text-link-hover-3: var(--blue);
     --menu-link-hover: var(--mauve);
-    --border-color: #000;
+    
+    --card-background: #f1f1f1;
+    --card-border: var(--crust);
+    --card-hover: rgb(20, 20, 20);
 }
 
 [data-theme]
@@ -228,6 +240,9 @@ h3 {
 
 
 @media screen and (max-width: 850px) {
+    body{
+        max-width: 60ch;
+    }
     .theme-toggle{
         i{
             margin-top: 1px;
@@ -271,4 +286,18 @@ h3 {
     .nav-logo{
         z-index: 2;
     }
+}
+
+@media screen and (max-width: 570px) {
+    body{
+        max-width: 50ch;
+    }
+    
+}
+
+@media screen and (max-width: 370px) {
+    body{
+        max-width: 250px;
+    }
+    
 }

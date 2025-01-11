@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-const pageTitle = "Blog Posts";
+const pageTitle = "Projects";
 import ListPosts from "../../layouts/ListPosts.astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import { Debug } from "astro:components";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const posts = await getCollection("projects", ({ data }) => !data.draft);
   return paginate(posts, { pageSize: 4 });
 }) satisfies GetStaticPaths;
 
@@ -16,5 +16,4 @@ const page = Astro.props.page;
 ---
 <!-- <Debug value={test} /> -->
 <BaseLayout pageTitle={pageTitle}>
-    <ListPosts page={page} />
 </BaseLayout>

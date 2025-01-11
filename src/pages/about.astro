@@ -1,15 +1,23 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "About Me"
 ---
 
-<Layout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle}>
     <h2>About Me</h2>
     <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus obcaecati optio maxime expedita! Porro placeat aliquam harum temporibus dicta nisi asperiores quae nam omnis molestiae, quaerat tempore neque ratione!
+        Hey! My name is James and I'm a tech enthusiast that loves to build and tinker with 
+        Linux, home server (homelab), cloud services, building PCs, gaming, etc.
+    </p>
+    <p>
+        I am currently a student pursing a master's degree in Computer Science in BU 
+        with a undergraduate degree in Electronic Engineering at HKUST.
     </p>
     <h2>About My Blog Posts</h2>
     <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi quae dolore maxime reprehenderit iusto id aliquam adipisci quod accusantium vero aut blanditiis dolorem commodi, ab sunt temporibus eos voluptate laborum!
+        These blog posts are mainly for myself, where I mainly document my experience
+        with building hobby projects, things I learnt, and other random tidbits 
+        I find interesting.
+
     </p>
-</Layout>
+</BaseLayout>

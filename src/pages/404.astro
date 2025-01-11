@@ -1,8 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "404 Error"
 ---
-<Layout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle}>
     <div class="error">
 	    <h1>404 Error!</h1>
         <img src="https://media.tenor.com/Es9wm76r9QkAAAAj/angry-typing-cat.gif" alt="">
@@ -10,7 +10,7 @@ const pageTitle = "404 Error"
         <p>Server could not find the requested resource.</p>
         <p>Perhaps the page you are looking for has been moved, deleted, or never existed.</p>
     </div>
-</Layout>
+</BaseLayout>
 
 <style>
     body{

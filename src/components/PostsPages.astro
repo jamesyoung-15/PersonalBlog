@@ -1,0 +1,21 @@
+---
+import type { Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { Debug } from "astro:components";
+
+export interface Props {
+  page: Page<CollectionEntry<"posts">>,
+}
+
+const { page } = Astro.props;
+
+---
+
+{
+    page.lastPage > 1 && (
+        <nav>
+            <Debug value={page} />
+
+        </nav>
+    )
+}

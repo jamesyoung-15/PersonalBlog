@@ -1,0 +1,33 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+const pageTitle = "Posts";
+import PostsPages from "../components/PostsPages.astro";
+import PostsCard from "../components/PostsCard.astro";
+
+import type { Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { Debug } from "astro:components";
+import { imageConfig } from "astro:assets";
+
+export interface Props {
+  page: Page<CollectionEntry<"posts">>;
+}
+
+const { page } = Astro.props;
+---
+<section class="post-cards">
+    {
+        page.data.map(({ data, slug }) => (
+            <PostsCard
+                href={`/posts/${slug}`}
+                image={data.image?.src.src}
+                publishDate={data.publishDate}
+                title={data.title}
+                description={data.description}
+                tags={data.tags}
+            />
+        ))
+    }
+</section>
+
+

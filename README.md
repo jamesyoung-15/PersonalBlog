@@ -1,6 +1,6 @@
 # My Blog
 
-My blog website built with Astro framework.
+My blog website built with Astro framework. See [here](https://blog.jyylab.com)
 
 Hosted on AWS with Amplify + S3 and integrated with Cloudflare DNS with Cloudflare providing CDN and SSL cert.
 

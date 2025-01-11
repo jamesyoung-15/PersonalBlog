@@ -1,8 +1,25 @@
 ---
 import '../styles/global.css';
+import '../styles/blog-cards.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-const {pageTitle} = Astro.props;
+
+export interface Props {
+	pageTitle: string;
+	ogImage?: string;
+	description?: string;
+	canonicalURL?: string;
+}
+
+const {
+	pageTitle = "James' Blog", 
+	ogImage = "/placeholder.svg", 
+	description = "A blog about web development, programming, and technology.", 
+	canonicalURL = new URL(Astro.url.pathname, Astro.site),
+} = Astro.props;
+
+const socialImage = new URL(ogImage, Astro.url);
+
 ---
 <!doctype html>
 <html lang="en">
@@ -13,10 +30,10 @@ const {pageTitle} = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 
 		<!-- Open Graph -->
-		<!-- <meta property="og:title" content={title} />
+		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalURL} />
-		<meta property="og:image" content={socialImageURL} /> -->
+		<meta property="og:image" content={socialImage} />
 
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">

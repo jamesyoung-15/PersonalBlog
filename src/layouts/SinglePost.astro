@@ -1,0 +1,48 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+// import Footer from "../components/Footer.astro";
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  post: CollectionEntry<'posts'>,
+  posts: CollectionEntry<'posts'>[]
+}
+const { post, posts } = Astro.props;
+const {
+    title,
+    description,
+    publishDate,
+    updatedDate,
+    image,
+    tags,
+    draft,
+} = post.data;
+
+const updated = updatedDate ? updatedDate : publishDate;
+
+const ogImage = image 
+                ? typeof image.src === 'string'
+                    ? image.src
+                    : image.src.src 
+                : '/placeholder.svg';
+
+const { Content } = await post.render();
+
+import '../styles/blog.css'
+---
+<BaseLayout pageTitle={title} ogImage={ogImage} description={description}>
+    <h1>{title}</h1>
+    <div class="blog-date">
+        <i class='bx bxs-edit'></i>
+        <span>Last Updated: {updated}</span>
+    </div>
+    <div class="blog-image-overview">
+        <img src={ogImage} alt="">
+    </div>
+    <div class="blog-content">
+        <Content />
+    </div>
+    <div class="blog-share">
+        
+    </div>
+</BaseLayout>

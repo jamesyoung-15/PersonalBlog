@@ -1,20 +1,47 @@
 ---
-import Layout from '../layouts/Layout.astro';
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ListPosts from '../layouts/ListPosts.astro';
 const pageTitle = "James' Blog"
+import PostsCard from '../components/PostsCard.astro';
+
+import { type CollectionEntry, getCollection } from "astro:content";
+import { Debug } from "astro:components";
+import type { GetStaticPaths } from "astro";
+
+
+const getPosts = await getCollection("posts");
+
+const posts = getPosts.length > 3 ? getPosts.slice(0, 4) : getPosts;
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle}>
 	<h1>Hello, welcome to my blog!</h1>
 	<p>
 		Here I post my tech blogs where I talk about my home-lab, random tech projects, Linux, gaming,
 		and other stuff I find interesting. 
 	</p>
-	<h2>Blog Posts</h2>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam maiores fugit impedit tempora facere ipsa officia incidunt, laudantium animi nemo, adipisci aliquid odit debitis odio, quibusdam dolor fugiat nesciunt voluptatem!
-	</p>
-</Layout>
+	<h2>Recent Blog Posts</h2>
+	<!-- <Debug value={posts} /> -->
+	<section class="post-cards">
+		{
+			posts.map(({ data, slug }) => (
+				<PostsCard
+					href={`/posts/${slug}`}
+					image={data.image?.src.src}
+					publishDate={data.publishDate}
+					title={data.title}
+					description={data.description}
+					tags={data.tags}
+				/>
+			))
+		}
+	</section>
+	<div class="view-all-posts">
+		<a href="./posts/" class="view-all-posts">See All Posts</a>
+	</div>
+</BaseLayout>
+
+	
