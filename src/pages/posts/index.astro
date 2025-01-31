@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-const pageTitle = "Blog Posts";
 import { type CollectionEntry, getCollection } from "astro:content";
 // import { Debug } from "astro:components";
 // import FilterPosts from "../../layouts/FilterPosts.astro";
@@ -8,8 +7,10 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import SearchPost from "../../layouts/SearchPost.astro";
 // import DynamicSearch from "../../layouts/DynamicSearch.astro";
 
-const posts = await getCollection("posts", ({ data }) => !data.draft);
+const pageTitle = "Blog Posts";
 
+// Get all blog posts
+const posts = await getCollection("posts", ({ data }) => !data.draft);
 const page = posts;
 
 ---

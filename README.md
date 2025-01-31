@@ -16,7 +16,8 @@ Using Astro Web Framework with some CSS and Typescript, blogs written with markd
 
 - For deployment, build with `npm run build`
 
-- Hosting
-  - can use [serve](https://www.npmjs.com/package/serve) library to serve static page with `serve -s dist`, put behind proxy in VPS/Linux machine
+- Hosting options
+  - self-host w/ VPS/Linux machine
   - copy to S3 bucket with `aws s3 cp dist/ s3://<BUCKET_NAME>/ --recursive`
   - use amplify
+  - [other methods](https://docs.astro.build/en/guides/deploy/)
