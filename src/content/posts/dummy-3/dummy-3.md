@@ -1,13 +1,10 @@
 ---
-title: 'Test Post 2'
-slug: 'test-post-2'
-description: 'This is an example template blog post.'
-publishDate: 'Dec 7, 2024'
-image: {
-  src: './arnoldmeme.jpg',
-  alt: 'Post Thumbnail'
-}
-tags: ["astro", "secondary-test"]
+title: "Dummy Post 3"
+slug: "dummy-post-3"
+description: "This is an dummy blog post to populate my data for testing my blog website. Will replace soon"
+publishDate: "Dec 8, 2024"
+image: { src: "./vegeta-meme.png", alt: "Post Thumbnail" }
+tags: ["testing"]
 ---
 
 Aenean a ex et metus finibus malesuada commodo in magna. In ut libero urna. Aenean in quam in ipsum rutrum egestas. Donec semper dignissim ante. Sed efficitur mi et sapien ultrices malesuada. Aliquam fermentum aliquam ante, eu semper mi vestibulum quis. Sed et purus metus. Pellentesque vestibulum commodo euismod. Duis a mauris accumsan lorem laoreet tempor. Mauris accumsan varius metus, in rutrum magna accumsan eget. Pellentesque at leo at sem tempor hendrerit non sit amet ante. Cras commodo augue sed magna rutrum rutrum.
