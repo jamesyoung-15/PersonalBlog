@@ -1,0 +1,167 @@
+---
+const pageTitle = "Blog Posts";
+import ListPosts from "../../layouts/ListPosts.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { Debug } from "astro:components";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  return paginate(posts, { pageSize: 4 });
+}) satisfies GetStaticPaths;
+
+const page = Astro.props.page;
+
+// search functionality
+
+
+// Destructure page properties
+const { currentPage, lastPage, url } = page;
+
+// Helper function to generate page numbers
+const getPageNumbers = () => {
+  const pageNumbers = [];
+  if (lastPage <= 4) {
+    // Show all page numbers if total pages <= 4
+    for (let i = 1; i <= lastPage; i++) {
+      pageNumbers.push(i);
+    }
+  } else {
+    // Add the first page
+    pageNumbers.push(1);
+
+    // Add dots if currentPage is far from the start
+    if (currentPage > 3) {
+      pageNumbers.push("...");
+    }
+
+    // Add current, previous, and next pages (centered around currentPage)
+    for (
+      let i = Math.max(2, currentPage - 1);
+      i <= Math.min(lastPage - 1, currentPage + 1);
+      i++
+    ) {
+      pageNumbers.push(i);
+    }
+
+    // Add dots if currentPage is far from the end
+    if (currentPage < lastPage - 2) {
+      pageNumbers.push("...");
+    }
+
+    // Add the last page
+    pageNumbers.push(lastPage);
+  }
+  return pageNumbers;
+};
+
+const pageNumbers = getPageNumbers();
+
+---
+<div class="pagination">
+    <!-- First and Previous Buttons -->
+    <a
+    href={url.first || "/posts"}
+    class={`pagination-button ${currentPage === 1 ? "disabled" : ""}`}
+    aria-disabled={currentPage === 1}
+    >
+    &laquo;
+    </a>
+    <a
+    href={url.prev || "/posts"}
+    class={`pagination-button ${currentPage === 1 ? "disabled" : ""}`}
+    aria-disabled={currentPage === 1}
+    >
+    &lt;
+    </a>
+
+    <!-- Page Numbers -->
+    {pageNumbers.map((num) => (
+    num === "..."
+        ? <span class="pagination-dots">...</span>
+        : <a
+            href={`/posts${num === 1 ? "" : `/${num}`}`}
+            class={`pagination-number ${num === currentPage ? "active" : ""}`}
+        >
+            {num}
+        </a>
+    ))}
+
+    <!-- Next and Last Buttons -->
+    <a
+    href={url.next || "/posts"}
+    class={`pagination-button ${currentPage === lastPage ? "disabled" : ""}`}
+    aria-disabled={currentPage === lastPage}
+    >
+    &gt;
+    </a>
+    <a
+    href={url.last || `/posts/${lastPage}`}
+    class={`pagination-button ${currentPage === lastPage ? "disabled" : ""}`}
+    aria-disabled={currentPage === lastPage}
+    >
+    &raquo;
+    </a>
+</div>
+
+<style>
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 50px;
+}
+
+.pagination-button,
+.pagination-number {
+  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+}
+
+.pagination-button:hover,
+.pagination-number:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination-button.disabled,
+.pagination-number.disabled {
+  color: #aaa;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pagination-number.active {
+  background-color: #007bff;
+  color: #fff;
+  cursor: default;
+}
+
+.pagination-dots {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: #aaa;
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .pagination {
+    gap: 4px;
+  }
+  .pagination-button,
+  .pagination-number {
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+}
+
+</style>

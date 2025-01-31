@@ -24,7 +24,9 @@ const { href, image, publishDate, title, description, tags } = Astro.props;
                         ))
                     }
                 </div>
-                <p class="post-card-description">{description}</p>
+                <div class="post-card-description">
+                    <p>{description}</p>
+                </div>
                 <div class="post-card-button">
                     <a href={href}>
                         Read More

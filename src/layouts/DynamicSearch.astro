@@ -1,0 +1,134 @@
+---
+import PostsCard from "../components/PostsCard.astro";
+import PageButtons from "../components/PageButtons.astro";
+import { type CollectionEntry, Page } from "astro:types";
+
+export interface Props {
+  data: Page<CollectionEntry<"posts">>;
+}
+
+const { data } = Astro.props; // Blog posts page.data from page.page.data
+
+// Extract unique tags
+const tags = Array.from(
+  new Set(data.flatMap((post) => post.data.tags))
+);
+
+---
+
+<div class="search-filter-bar">
+  <!-- Search Input -->
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Search by title..."
+    id="search-input"
+  />
+
+  <!-- Dropdown for Tags -->
+  <select class="tag-select" id="tag-select">
+    <option value="">Filter by tag</option>
+    {tags.map((tag) => (
+      <option value={tag}>{tag}</option>
+    ))}
+  </select>
+</div>
+
+<div class="post-cards filtered-posts" id="filtered-posts">
+    {data.map(({data, slug}) => (
+      <li data-title={data.title.toLowerCase()} data-tags={data.tags.join(',')}>
+        <PostsCard
+          href={`/posts/${slug}`}
+          image={data.image?.src.src}
+          publishDate={data.publishDate}
+          title={data.title}
+          description={data.description}
+          tags={data.tags}
+        />
+      </li>
+    ))}
+</div>
+<!-- <PageButtons page={data} /> -->
+
+<script>
+  // Get references to the elements
+  const searchInput = document.getElementById('search-input');
+  const tagSelect = document.getElementById('tag-select');
+  const filteredPostsContainer = document.getElementById('filtered-posts');
+  const allPosts = Array.from(filteredPostsContainer.querySelectorAll('li'));
+
+  // Function to filter posts
+  const filterPosts = () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedTag = tagSelect.value;
+
+    allPosts.forEach((post) => {
+      const title = post.dataset.title;
+      const tags = post.dataset.tags.split(',');
+
+      const matchesTitle = title.includes(searchTerm);
+      const matchesTag = !selectedTag || tags.includes(selectedTag);
+
+      if (matchesTitle && matchesTag) {
+        post.style.display = 'block';
+      } else {
+        post.style.display = 'none';
+      }
+    });
+
+    // Show a message if no posts match
+    const visiblePosts = allPosts.filter((post) => post.style.display === 'block');
+    if (visiblePosts.length === 0) {
+      filteredPostsContainer.innerHTML = '<p>No posts match your criteria.</p>';
+    } else {
+      filteredPostsContainer.innerHTML = '';
+      visiblePosts.forEach((post) => filteredPostsContainer.appendChild(post));
+    }
+  };
+
+  // Attach event listeners
+  searchInput.addEventListener('input', filterPosts);
+  tagSelect.addEventListener('change', filterPosts);
+</script>
+
+<style>
+.search-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.tag-select {
+  flex: 0.3;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.filtered-posts li {
+  list-style: none;
+}
+
+/* collapse search and dropdown */
+@media (max-width: 600px) {
+  .search-filter-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tag-select {
+    flex: 1;
+  }
+}
+
+</style>

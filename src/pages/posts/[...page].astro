@@ -1,20 +1,30 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-const pageTitle = "Blog Posts";
-import ListPosts from "../../layouts/ListPosts.astro";
-import { type CollectionEntry, getCollection } from "astro:content";
-import { Debug } from "astro:components";
-import type { GetStaticPaths } from "astro";
+// Astro way of doing pagination, currently not using this file, instead wrote own pagination in SearchPost.astro
 
-export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
-  return paginate(posts, { pageSize: 4 });
-}) satisfies GetStaticPaths;
+// import BaseLayout from "../../layouts/BaseLayout.astro";
+// const pageTitle = "Blog Posts";
+// import { type CollectionEntry, getCollection } from "astro:content";
+// import { Debug } from "astro:components";
+// import type { GetStaticPaths } from "astro";
+// import DynamicSearch from "../../layouts/DynamicSearch.astro";
+// import PageButtons from "../../components/PageButtons.astro";
 
-const page = Astro.props.page;
+// export const getStaticPaths = (async ({ paginate }) => {
+//   const posts = await getCollection("posts", ({ data }) => !data.draft);
+//   return paginate(posts, { pageSize: 4 });
+// }) satisfies GetStaticPaths;
+
+// const page = Astro.props.page;
+
+// const tags =  Array.from(
+//   new Set(page.data.flatMap((post) => post.data.tags))
+// );
 
 ---
-<!-- <Debug value={test} /> -->
-<BaseLayout pageTitle={pageTitle}>
-    <ListPosts page={page} />
-</BaseLayout>
+<!-- <Debug value={page} /> -->
+<!-- <BaseLayout pageTitle={pageTitle}> -->
+    <!-- <SearchPost data={page.data}></SearchPost> -->
+    <!-- <DynamicSearch page={page}></DynamicSearch> -->
+    <!-- <PageButtons page={page} /> -->
+<!-- </BaseLayout> -->
+

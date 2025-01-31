@@ -1,0 +1,278 @@
+---
+// This layout includes a search bar for filtering blog posts, cards for displaying the filtered posts, and pagination controls for navigating through the filtered posts.
+
+import PostsCard from "../components/PostsCard.astro";
+
+const { data } = Astro.props; // Blog posts data
+
+// Extract unique tags
+const tags = Array.from(
+  new Set(data.flatMap((post) => post.data.tags))
+);
+
+const postsPerPage = 5; // Number of posts per page
+---
+
+<div class="search-filter-wrapper">
+  <!-- Search Bar -->
+  <form class="search-form">
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search by title..."
+      class="search-input"
+    />
+
+    <select id="tag-select" class="tag-select">
+      <option value="">Filter by tag</option>
+      {tags.map((tag) => (
+        <option value={tag}>{tag}</option>
+      ))}
+    </select>
+
+    <button type="button" id="search-button" class="search-button">Search</button>
+  </form>
+
+  <!-- Filtered Blog Posts -->
+  <div class="post-cards filtered-posts" id="filtered-posts">
+    {data.map(({data, slug}) => (
+      <li data-title={data.title.toLowerCase()} data-tags={data.tags.join(',')} data-pubdate={data.publishDate} class="post-item">
+        <PostsCard
+          href={`/posts/${slug}`}
+          image={data.image?.src.src}
+          publishDate={data.publishDate}
+          title={data.title}
+          description={data.description}
+          tags={data.tags}
+        />
+      </li>
+    ))}
+</div>
+
+  <!-- Pagination -->
+  <div id="pagination" class="pagination"></div>
+</div>
+
+<script>
+    const postsPerPage = 4; // Posts per page
+
+    // DOM Elements
+    const searchInput = document.getElementById('search-input');
+    const tagSelect = document.getElementById('tag-select');
+    const searchButton = document.getElementById('search-button');
+    const postList = document.getElementById('filtered-posts');
+    const paginationContainer = document.getElementById('pagination');
+    const searchForm = document.querySelector('.search-form'); // Form element
+    const allPosts = Array.from(postList.querySelectorAll('.post-item')).sort((a, b) => {
+      // Sort posts by date, newest first, needs to be converted to ISO date
+      const dateA = new Date(a.dataset.pubdate);
+      const dateB = new Date(b.dataset.pubdate);
+      return dateB - dateA;
+    }); // All posts
+  
+    let currentPage = 1; // Current page
+    let filteredPosts = [...allPosts]; // Filtered posts
+  
+    // Function to filter posts
+    const filterPosts = () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedTag = tagSelect.value;
+  
+      filteredPosts = allPosts.filter((post) => {
+        const title = post.dataset.title; // Title from data-title
+        const tags = post.dataset.tags.split(','); // Tags from data-tags
+  
+        const matchesTitle = title.includes(searchTerm);
+        const matchesTag = !selectedTag || tags.includes(selectedTag);
+  
+        return matchesTitle && matchesTag;
+      });
+  
+      currentPage = 1; // Reset to the first page
+      renderPosts();
+      renderPagination();
+    };
+  
+    // Function to render posts for the current page
+    const renderPosts = () => {
+      const startIndex = (currentPage - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      const postsToDisplay = filteredPosts.slice(startIndex, endIndex);
+  
+      postList.innerHTML = ''; // Clear existing posts
+  
+      if (postsToDisplay.length === 0) {
+        postList.innerHTML = '<p>No posts match your criteria.</p>';
+      } else {
+        postsToDisplay.forEach((post) => {
+          postList.appendChild(post);
+        });
+      }
+    };
+    
+  
+    // Function to render pagination controls
+    const renderPagination = () => {
+    const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+
+    paginationContainer.innerHTML = ''; // Clear existing pagination
+
+    if (totalPages <= 1) {
+      return; // No pagination needed
+    }
+
+    // Helper function to create a pagination button
+    const createButton = (label, page, isDisabled = false, isActive = false) => {
+      const button = document.createElement('button');
+      button.textContent = label;
+      button.className = `pagination-button ${isActive ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`;
+      button.disabled = isDisabled;
+
+      if (!isDisabled) {
+        button.addEventListener('click', () => {
+          currentPage = page;
+          renderPosts();
+          renderPagination();
+        });
+      }
+
+      return button;
+    };
+
+    // Add "<<" button (go to first page)
+    paginationContainer.appendChild(createButton('<<', 1, currentPage === 1));
+
+    // Add "<" button (go to previous page)
+    paginationContainer.appendChild(createButton('<', currentPage - 1, currentPage === 1));
+
+    let lastDisplayedPage = 0; // Track the last displayed page number
+
+    // Add page numbers with ellipses logic
+    for (let i = 1; i <= totalPages; i++) {
+      // Always show the first page, last page, current page, and pages near the current page
+      if (
+        i === 1 || // First page
+        i === totalPages || // Last page
+        Math.abs(i - currentPage) <= 1 // Pages near the current page
+      ) {
+        if (lastDisplayedPage && i - lastDisplayedPage > 1) {
+          // Add ellipses if the difference between pages is greater than 1
+          const ellipsis = document.createElement('span');
+          ellipsis.textContent = '...';
+          ellipsis.className = 'pagination-ellipsis';
+          paginationContainer.appendChild(ellipsis);
+        }
+
+        // Add the page button
+        paginationContainer.appendChild(createButton(i, i, false, currentPage === i));
+        lastDisplayedPage = i; // Update the last displayed page
+      }
+    }
+
+    // Add ">" button (go to next page)
+    paginationContainer.appendChild(createButton('>', currentPage + 1, currentPage === totalPages));
+
+    // Add ">>" button (go to last page)
+    paginationContainer.appendChild(createButton('>>', totalPages, currentPage === totalPages));
+  };
+  
+    // Attach event listener to the form's submit event
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent default form submission
+      filterPosts(); // Trigger the filter function
+    });
+
+    // Attach event listener to the search button
+    searchButton.addEventListener('click', filterPosts);
+  
+    // Initial render
+    renderPosts();
+    renderPagination();
+</script>
+  
+
+<style>
+
+
+.search-filter-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.tag-select {
+  flex: 0.3;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.search-button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.filtered-posts li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.filtered-posts li {
+  margin-bottom: 1.5rem;
+}
+
+
+
+@media screen and (max-width: 600px) {
+  .search-form {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .tag-select {
+    flex: 1;
+    width: 100%;
+  }
+  .search-button {
+    width: 100%;
+  }
+
+  .pagination {
+    gap: 0.25rem;
+  }
+
+  .pagination-button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+    
+}
+
+</style>

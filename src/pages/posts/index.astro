@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const pageTitle = "Blog Posts";
+import { type CollectionEntry, getCollection } from "astro:content";
+// import { Debug } from "astro:components";
+// import FilterPosts from "../../layouts/FilterPosts.astro";
+// import PageButtons from "../../components/PageButtons.astro";
+import SearchPost from "../../layouts/SearchPost.astro";
+// import DynamicSearch from "../../layouts/DynamicSearch.astro";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+const page = posts;
+
+---
+<!-- <Debug value={posts} /> -->
+<BaseLayout pageTitle={pageTitle}>
+    <SearchPost data={page} />
+    <!-- <ListPosts page={page} /> -->
+    <!-- <PageButtons page={page} /> -->
+</BaseLayout>
+
