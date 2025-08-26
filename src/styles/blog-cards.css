@@ -34,7 +34,7 @@
   /* display: block; */
   text-align: center;
   margin: 10px auto 0;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .post-card-date {
@@ -44,11 +44,11 @@
 
 .post-card-description {
   font-size: 0.85rem;
-  /* overflow: hidden; */
-  /* text-overflow: ellipsis; */
+  overflow: hidden;
+  text-overflow: ellipsis;
   height: 6rem;
   display: flex;
-  text-align: left;
+  /* text-align: left; */
 }
 
 .post-card-description p {
