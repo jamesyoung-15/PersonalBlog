@@ -1,5 +1,5 @@
 ---
-title: "Template Blog Post"
+title: "The Ultimate Template Blog Post"
 slug: "test-post"
 description: "This is a template blog post for my own reference on how to add and configure blog posts for my setup."
 publishDate: "Dec 10, 2024"
@@ -81,4 +81,5 @@ See result below.
 ## Possible Todos
 
 - Allow manual sort by date (ie. oldest first, newest first buttons)
-- Rewrite CSS to Tailwind (easier usage)
+- Better readability
+- Still looks kinda ugly, maybe redo design?
