@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - .gitignore
+      - .vscode/**
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - .gitignore
+      - .vscode/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Deploy to Cloudflare Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build React Project
+        run: npm install && npm run build
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=blog-jyylab --branch=main
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

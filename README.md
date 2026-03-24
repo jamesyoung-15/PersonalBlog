@@ -2,11 +2,11 @@
 
 My blog website built with Astro framework. See [here](https://blog.jyylab.com)
 
-Hosted on AWS S3 and integrated with Cloudflare DNS with Cloudflare providing CDN and SSL cert.
+Hosted Cloudflare Pages with Cloudflare DNS + CDN + SSL cert. Deployment with Github Actions + Wrangler.
 
 ## Tech Stack
 
-Using Astro Web Framework with some CSS and Typescript, blogs written with markdown. Deployed with Terraform to AWS S3 and DNS managed with Cloudfalre.
+Using Astro Web Framework with some CSS and Typescript, blogs written with markdown. Deployment with Github Actions + Wrangler.
 
 ## Setup Instructions
 
@@ -15,9 +15,3 @@ Using Astro Web Framework with some CSS and Typescript, blogs written with markd
 - For dev, install dependencies with `npm install`, run `npm run dev` for live changes
 
 - For deployment, build with `npm run build`
-
-- Hosting options
-  - self-host w/ VPS/Linux machine
-  - copy to S3 bucket with `aws s3 cp dist/ s3://<BUCKET_NAME>/ --recursive`
-  - use amplify
-  - [other methods](https://docs.astro.build/en/guides/deploy/)
